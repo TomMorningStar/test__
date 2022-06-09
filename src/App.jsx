@@ -9,7 +9,6 @@ import { useNavigate } from "react-router-dom";
 
 const App = () => {
   const [items, setItems] = React.useState([]);
-  const [searchItems, setSearchItems] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(false);
   const [value, setValue] = React.useState("");
   const [searchItemsWindow, setSearchItemsWindow] = React.useState(true);
@@ -30,19 +29,15 @@ const App = () => {
   };
 
   const handleGetValue = () => {
-    const filteredItems = searchItems.filter((item) => {
-      const searchTags = item.tags.map((item) => {
-        return item;
+    fetch(`https://dummyjson.com/posts/search?q=${value}`)
+      .then((res) => res.json())
+      .then((posts) => {
+        setItems(posts.posts);
+        setIsLoading(true);
       });
 
-      return (
-        item.body.toLowerCase().includes(value.toLowerCase()) ||
-        item.title.toLowerCase().includes(value.toLowerCase()) ||
-        searchTags.join(" ").toLowerCase().includes(value.toLowerCase())
-      );
-    });
     localStorage.clear();
-    setItems(filteredItems);
+
     setValue("");
     if (value) {
       setSearchItemsWindow(false);
@@ -60,7 +55,6 @@ const App = () => {
       .then((posts) => {
         localStorage.clear();
         setItems(posts.posts);
-        setSearchItems(posts.posts);
         setIsLoading(true);
       });
   }, []);
