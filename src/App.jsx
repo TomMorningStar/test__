@@ -13,6 +13,7 @@ const App = () => {
   const [isLoading, setIsLoading] = React.useState(false);
   const [value, setValue] = React.useState("");
   const [searchItemsWindow, setSearchItemsWindow] = React.useState(true);
+  const [validation, setValidation] = React.useState(false);
 
   const navigate = useNavigate();
 
@@ -43,7 +44,13 @@ const App = () => {
     localStorage.clear();
     setItems(filteredItems);
     setValue("");
-    setSearchItemsWindow(false);
+    if (value) {
+      setSearchItemsWindow(false);
+      setValidation(false);
+    } else {
+      setValidation(true);
+      setSearchItemsWindow(true);
+    }
     navigate("1");
   };
 
@@ -61,6 +68,7 @@ const App = () => {
   return (
     <div className="App">
       <Search
+        validation={validation}
         handleCancel={handleCancel}
         setValue={setValue}
         value={value}
