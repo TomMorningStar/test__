@@ -5,12 +5,16 @@ import Footer from "./components/Footer";
 
 import { useEffect } from "react";
 import Search from "./components/Search";
+import { useNavigate } from "react-router-dom";
 
 const App = () => {
   const [items, setItems] = React.useState([]);
   const [searchItems, setSearchItems] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(false);
   const [value, setValue] = React.useState("");
+  const [searchItemsWindow, setSearchItemsWindow] = React.useState(true);
+
+  const navigate = useNavigate();
 
   const handleCancel = () => {
     fetch("https://dummyjson.com/posts")
@@ -21,9 +25,8 @@ const App = () => {
       });
 
     localStorage.clear();
+    setSearchItemsWindow(true);
   };
-
-  console.log(items);
 
   const handleGetValue = () => {
     const filteredItems = searchItems.filter((item) => {
@@ -40,6 +43,8 @@ const App = () => {
     localStorage.clear();
     setItems(filteredItems);
     setValue("");
+    setSearchItemsWindow(false);
+    navigate("1");
   };
 
   useEffect(() => {
@@ -68,7 +73,7 @@ const App = () => {
         <div className="loading">Fetching posts...</div>
       )}
 
-      <Footer />
+      {searchItemsWindow && <Footer />}
     </div>
   );
 };
