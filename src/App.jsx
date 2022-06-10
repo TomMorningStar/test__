@@ -21,7 +21,7 @@ const App = () => {
         setItems(posts.posts);
         setIsLoading(true);
       });
-
+    setPage(0);
     localStorage.clear();
     setSearchItemsWindow(true);
   };
