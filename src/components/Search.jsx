@@ -24,7 +24,7 @@ const Search = ({
           </button>
         </div>
 
-        <Link onClick={handleCancel} to="/1" className="exit">
+        <Link onClick={handleCancel} to="/skip=0" className="exit">
           Назад
         </Link>
       </div>

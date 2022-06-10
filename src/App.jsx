@@ -5,7 +5,6 @@ import Footer from "./components/Footer";
 
 import { useEffect } from "react";
 import Search from "./components/Search";
-import { useNavigate } from "react-router-dom";
 
 const App = () => {
   const [items, setItems] = React.useState([]);
@@ -13,8 +12,7 @@ const App = () => {
   const [value, setValue] = React.useState("");
   const [searchItemsWindow, setSearchItemsWindow] = React.useState(true);
   const [validation, setValidation] = React.useState(false);
-
-  const navigate = useNavigate();
+  const [page, setPage] = React.useState(0);
 
   const handleCancel = () => {
     fetch("https://dummyjson.com/posts")
@@ -46,18 +44,17 @@ const App = () => {
       setValidation(true);
       setSearchItemsWindow(true);
     }
-    navigate("1");
   };
 
   useEffect(() => {
-    fetch("https://dummyjson.com/posts")
+    fetch(`https://dummyjson.com/posts?limit=10&skip=${page}`)
       .then((res) => res.json())
       .then((posts) => {
         localStorage.clear();
         setItems(posts.posts);
         setIsLoading(true);
       });
-  }, []);
+  }, [page]);
 
   return (
     <div className="App">
@@ -70,12 +67,14 @@ const App = () => {
       />
 
       {isLoading ? (
-        <Main items={items} />
+        <Main page={page} items={items} />
       ) : (
         <div className="loading">Fetching posts...</div>
       )}
 
-      {searchItemsWindow && <Footer />}
+      {searchItemsWindow && (
+        <Footer setItems={setItems} page={page} setPage={setPage} />
+      )}
     </div>
   );
 };
