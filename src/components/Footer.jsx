@@ -18,10 +18,6 @@ const Footer = ({ page, setPage }) => {
     }
   };
 
-  const handleNavigate = (el) => {
-    localStorage.clear();
-  };
-
   return (
     <footer>
       <button onClick={handleMinus}>Назад</button>

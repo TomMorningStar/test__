@@ -15,7 +15,7 @@ const App = () => {
   const [page, setPage] = React.useState(0);
 
   const handleCancel = () => {
-    fetch("https://dummyjson.com/posts")
+    fetch(`https://dummyjson.com/posts?limit=10&skip=${page}`)
       .then((res) => res.json())
       .then((posts) => {
         setItems(posts.posts);
