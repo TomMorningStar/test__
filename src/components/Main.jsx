@@ -10,7 +10,7 @@ const Main = ({ items, page }) => {
         <Header />
 
         <Routes>
-          <Route path="/" element={<Navigate to="skip=0" replace />} />
+          <Route path="*" element={<Navigate to="skip=0" replace />} />
           <Route path={`/skip=${page}`} element={<Content items={items} />} />
         </Routes>
       </table>
